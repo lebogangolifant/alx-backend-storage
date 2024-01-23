@@ -3,8 +3,6 @@
 Module that list all documents in Python
 """
 
-from pymongo.collection import Collection
-
 
 def list_all(mongo_collection):
     """
