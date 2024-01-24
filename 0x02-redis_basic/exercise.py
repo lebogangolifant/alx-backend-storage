@@ -37,11 +37,17 @@ def call_history(method: Callable) -> Callable:
         """
         Wrapper method
         """
-        input = str(args)
-        self._redis.rpush(method.__qualname__ + ":inputs", input)
+        method_name = method.__qualname__
 
-        output = str(method(self, *args, **kwargs))
-        self._redis.rpush(method.__qualname__ + ":outputs", output)
+        input_key = f"{method_name}:inputs"
+        input_str = str(args)
+        redis_client.rpush(input_key, input_str)
+
+        output = method(self, *args, **kwargs)
+
+        output_key = f"{method_name}:outputs"
+        output_str = str(output)
+        redis_client.rpush(output_key, output_str)
 
         return output
 
