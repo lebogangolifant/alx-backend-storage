@@ -4,6 +4,7 @@ from typing import Callable
 
 redis_client = redis.Redis()
 
+
 def cache_decorator(func: Callable) -> Callable:
     """
     Decorator to cache the result of a function
@@ -26,6 +27,7 @@ def cache_decorator(func: Callable) -> Callable:
         return result
 
     return wrapper
+
 
 @cache_decorator
 def get_page(url: str) -> str:
