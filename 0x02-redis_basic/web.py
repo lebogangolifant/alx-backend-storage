@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+"""
+Module to provide a cache decorator for web page retrieval.
+"""
+
 import requests
 import redis
 from typing import Callable
