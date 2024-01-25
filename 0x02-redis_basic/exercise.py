@@ -65,7 +65,7 @@ def replay(fn: Callable) -> None:
     num_calls = redis_client.get(function_name)
     try:
         num_calls = num_calls.decode('utf-8')
-    except AttributeError:
+    except (AttributeError, TypeError):
         num_calls = 0
 
     print(f'{function_name} was called {num_calls} times:')
@@ -76,14 +76,14 @@ def replay(fn: Callable) -> None:
     for input_args, output in zip(input_list, output_list):
         try:
             input_args = input_args.decode('utf-8')
-        except AttributeError:
+        except (AttributeError, TypeError):
             input_args = ""
         try:
             output = output.decode('utf-8')
-        except AttributeError:
+        except (AttributeError, TypeError):
             output = ""
 
-        print(f'{function_name}(*{input_args.split(", ")}) -> {output}')
+        print(f'{function_name}(*{eval(input_args)}) -> {output}')
 
 
 class Cache:
