@@ -82,7 +82,7 @@ def replay(fn: Callable) -> None:
         except AttributeError:
             output = ""
 
-        print(f'{function_name}(*{input_args}) -> {output}')
+        print(f'{function_name}(*{input_args.split(", ")}) -> {output}')
 
 
 class Cache:
