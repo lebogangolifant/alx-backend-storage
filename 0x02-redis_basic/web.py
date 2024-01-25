@@ -40,10 +40,15 @@ def get_page(url: str) -> str:
     Get the HTML content of a particular URL
     and cache the result with an expiration time of 10 seconds.
     """
-    access_count_key = f"count:{url}"
-    redis_client.incr(access_count_key)
+    redis_client.incr(f"count:{url}")
+
+    cached_data = redis_client.get(url)
+    if cached_data:
+        return cached_data.decode('utf-8')
 
     response = requests.get(url)
     html_content = response.text
+
+    redis_client.setex(url, 10, html_content)
 
     return html_content
